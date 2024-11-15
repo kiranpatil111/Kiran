@@ -1,0 +1,127 @@
+
+Q.1) Write a program to sort a list of n numbers in ascending order using Insertion sort and
+determine the time required to sort the elements.
+
+
+import java.util.*;
+
+public class InsertionSort {
+    public static void main(String[] args) {
+        // Create a random list of numbers
+        Random random = new Random();
+        List<Integer> numbers = new ArrayList<>();
+        int n = 10000; // Change this to desired list size
+        for (int i = 0; i < n; i++) {
+            numbers.add(random.nextInt(10000));
+        }
+        
+        // Perform insertion sort and measure time
+        long startTime = System.nanoTime();
+        insertionSort(numbers);
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime) / 1000000; // Convert to milliseconds
+        
+        // Print sorted list and time taken
+        System.out.println("Sorted List:");
+        System.out.println(numbers);
+        System.out.println("Time taken: " + duration + " milliseconds");
+    }
+    
+    public static void insertionSort(List<Integer> arr) {
+        int n = arr.size();
+        for (int i = 1; i < n; i++) {
+            int key = arr.get(i);
+            int j = i - 1;
+            while (j >= 0 && arr.get(j) > key) {
+                arr.set(j + 1, arr.get(j));
+                j = j - 1;
+            }
+            arr.set(j + 1, key);
+        }
+    }
+}
+
+
+Q-2
+import java.util.*;
+
+public class GraphTraversal {
+    private int V; // Number of vertices
+    private LinkedList<Integer> adj[]; // Adjacency list representation of the graph
+
+    // Constructor
+    GraphTraversal(int v) {
+        V = v;
+        adj = new LinkedList[v];
+        for (int i=0; i<v; ++i)
+            adj[i] = new LinkedList();
+    }
+
+    // Function to add an edge to the graph
+    void addEdge(int v, int w) {
+        adj[v].add(w);
+    }
+
+    // Depth-First Search traversal
+    void DFS(int v) {
+        boolean visited[] = new boolean[V];
+        DFSUtil(v, visited);
+    }
+
+    void DFSUtil(int v, boolean visited[]) {
+        visited[v] = true;
+        System.out.print(v + " ");
+
+        Iterator<Integer> i = adj[v].listIterator();
+        while (i.hasNext()) {
+            int n = i.next();
+            if (!visited[n])
+                DFSUtil(n, visited);
+        }
+    }
+
+    // Breadth-First Search traversal
+    void BFS(int s) {
+        boolean visited[] = new boolean[V];
+        LinkedList<Integer> queue = new LinkedList<Integer>();
+
+        visited[s] = true;
+        queue.add(s);
+
+        while (queue.size() != 0) {
+            s = queue.poll();
+            System.out.print(s + " ");
+
+            Iterator<Integer> i = adj[s].listIterator();
+            while (i.hasNext()) {
+                int n = i.next();
+                if (!visited[n]) {
+                    visited[n] = true;
+                    queue.add(n);
+                }
+            }
+        }
+    }
+
+    public static void main(String args[]) {
+        GraphTraversal g = new GraphTraversal(4);
+
+        g.addEdge(0, 1);
+        g.addEdge(0, 2);
+        g.addEdge(1, 2);
+        g.addEdge(2, 0);
+        g.addEdge(2, 3);
+        g.addEdge(3, 3);
+
+        System.out.println("Depth First Traversal:");
+        g.DFS(2); // Starting from vertex 2
+
+        System.out.println("\nBreadth First Traversal:");
+        g.BFS(2); // Starting from vertex 2
+    }
+}
+
+
+
+
+
